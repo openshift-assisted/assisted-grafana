@@ -1,0 +1,7 @@
+FROM quay.io/centos/centos:stream9
+
+COPY --from=ghcr.io/yannh/kubeconform:v0.4.14 /kubeconform /usr/bin
+
+RUN --mount=type=tmpfs,destination=/var/cache:z\
+    --mount=type=cache,target=/var/cache:z\
+    dnf install -y make
