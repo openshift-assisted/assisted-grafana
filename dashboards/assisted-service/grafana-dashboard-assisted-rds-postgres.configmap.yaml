@@ -13,7 +13,10 @@ data:
         "list": [
           {
             "builtIn": 1,
-            "datasource": "-- Grafana --",
+            "datasource": {
+              "type": "datasource",
+              "uid": "grafana"
+            },
             "enable": true,
             "hide": true,
             "iconColor": "rgba(0, 211, 255, 1)",
@@ -31,15 +34,14 @@ data:
       "editable": true,
       "fiscalYearStartMonth": 0,
       "graphTooltip": 1,
-      "id": 254,
-      "iteration": 1647438362877,
+      "iteration": 1673427743943,
       "links": [],
       "liveNow": false,
       "panels": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2i4s3Wf7k"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -85,12 +87,12 @@ data:
             },
             "textMode": "name"
           },
-          "pluginVersion": "8.4.1",
+          "pluginVersion": "9.0.3",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "2i4s3Wf7k"
+                "uid": "${datasource}"
               },
               "exemplar": true,
               "expr": "aws_resources_exporter_rds_engineversion{dbinstance_identifier=\"${instance}\"}",
@@ -105,7 +107,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2i4s3Wf7k"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -155,12 +157,12 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "8.4.1",
+          "pluginVersion": "9.0.3",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "2i4s3Wf7k"
+                "uid": "${datasource}"
               },
               "exemplar": true,
               "expr": "aws_rds_read_latency_sum{dbinstance_identifier=\"${instance}\"}",
@@ -175,7 +177,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2i4s3Wf7k"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -225,12 +227,12 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "8.4.1",
+          "pluginVersion": "9.0.3",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "2i4s3Wf7k"
+                "uid": "${datasource}"
               },
               "exemplar": true,
               "expr": "aws_rds_write_latency_sum{dbinstance_identifier=\"${instance}\"}",
@@ -245,7 +247,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2i4s3Wf7k"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -294,12 +296,12 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "8.4.1",
+          "pluginVersion": "9.0.3",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "2i4s3Wf7k"
+                "uid": "${datasource}"
               },
               "exemplar": true,
               "expr": "aws_rds_database_connections_sum{dbinstance_identifier=\"${instance}\"}",
@@ -314,7 +316,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2i4s3Wf7k"
+            "uid": "${datasource}"
           },
           "description": "How long ago last backup has been taken",
           "fieldConfig": {
@@ -367,12 +369,12 @@ data:
             "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "8.4.1",
+          "pluginVersion": "9.0.3",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "2i4s3Wf7k"
+                "uid": "${datasource}"
               },
               "exemplar": true,
               "expr": "(time() - aws_resources_exporter_rds_latestrestorabletime{dbinstance_identifier=\"${instance}\"})",
@@ -387,7 +389,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2i4s3Wf7k"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -462,7 +464,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "2i4s3Wf7k"
+                "uid": "${datasource}"
               },
               "exemplar": true,
               "expr": "aws_rds_cpuutilization_maximum{dbinstance_identifier=\"${instance}\"}",
@@ -477,7 +479,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2i4s3Wf7k"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -552,7 +554,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "2i4s3Wf7k"
+                "uid": "${datasource}"
               },
               "exemplar": true,
               "expr": "aws_rds_freeable_memory_sum{dbinstance_identifier=\"${instance}\"}",
@@ -567,7 +569,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2i4s3Wf7k"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -655,7 +657,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "2i4s3Wf7k"
+                "uid": "${datasource}"
               },
               "exemplar": true,
               "expr": "aws_rds_database_connections_sum{dbinstance_identifier=\"${instance}\"}",
@@ -666,7 +668,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "2i4s3Wf7k"
+                "uid": "${datasource}"
               },
               "exemplar": true,
               "expr": "aws_resources_exporter_rds_maxconnections{dbinstance_identifier=\"${instance}\"}",
@@ -682,7 +684,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2i4s3Wf7k"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -757,7 +759,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "2i4s3Wf7k"
+                "uid": "${datasource}"
               },
               "exemplar": true,
               "expr": "aws_rds_read_latency_sum{dbinstance_identifier=\"${instance}\"}",
@@ -768,7 +770,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "2i4s3Wf7k"
+                "uid": "${datasource}"
               },
               "exemplar": true,
               "expr": "aws_rds_write_latency_sum{dbinstance_identifier=\"${instance}\"}",
@@ -784,7 +786,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2i4s3Wf7k"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -859,7 +861,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "2i4s3Wf7k"
+                "uid": "${datasource}"
               },
               "exemplar": true,
               "expr": "aws_rds_free_storage_space_sum{dbinstance_identifier=\"${instance}\"}",
@@ -874,7 +876,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2i4s3Wf7k"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -948,7 +950,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "2i4s3Wf7k"
+                "uid": "${datasource}"
               },
               "exemplar": true,
               "expr": "aws_rds_read_iops_average{dbinstance_identifier=\"${instance}\"}",
@@ -959,7 +961,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "2i4s3Wf7k"
+                "uid": "${datasource}"
               },
               "exemplar": true,
               "expr": "aws_rds_write_iops_average{dbinstance_identifier=\"${instance}\"}",
@@ -974,7 +976,7 @@ data:
         }
       ],
       "refresh": "",
-      "schemaVersion": 35,
+      "schemaVersion": 36,
       "style": "dark",
       "tags": [],
       "templating": {
@@ -987,7 +989,7 @@ data:
             },
             "datasource": {
               "type": "prometheus",
-              "uid": "2i4s3Wf7k"
+              "uid": "${datasource}"
             },
             "definition": "label_values(dbinstance_identifier)",
             "hide": 0,
@@ -1005,6 +1007,23 @@ data:
             "skipUrlSync": false,
             "sort": 0,
             "type": "query"
+          },
+          {
+            "current": {
+              "selected": false,
+              "text": "app-sre-prod-01-prometheus",
+              "value": "app-sre-prod-01-prometheus"
+            },
+            "hide": 2,
+            "includeAll": false,
+            "multi": false,
+            "name": "datasource",
+            "options": [],
+            "query": "prometheus",
+            "refresh": 1,
+            "regex": "/^app-sre-prod-01-prometheus$/",
+            "skipUrlSync": false,
+            "type": "datasource"
           }
         ]
       },
@@ -1016,6 +1035,6 @@ data:
       "timezone": "",
       "title": "RDS Postgres",
       "uid": "ezEQIcPnk",
-      "version": 17,
+      "version": 1,
       "weekStart": ""
     }
