@@ -34,7 +34,6 @@ data:
       "editable": true,
       "fiscalYearStartMonth": 0,
       "graphTooltip": 0,
-      "iteration": 1663777225999,
       "links": [],
       "liveNow": false,
       "panels": [
@@ -101,7 +100,7 @@ data:
             "showThresholdMarkers": true,
             "text": {}
           },
-          "pluginVersion": "9.0.3",
+          "pluginVersion": "9.3.8",
           "targets": [
             {
               "datasource": {
@@ -194,7 +193,7 @@ data:
             "showThresholdMarkers": true,
             "text": {}
           },
-          "pluginVersion": "9.0.3",
+          "pluginVersion": "9.3.8",
           "targets": [
             {
               "datasource": {
@@ -279,7 +278,7 @@ data:
             "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "9.0.3",
+          "pluginVersion": "9.3.8",
           "targets": [
             {
               "datasource": {
@@ -350,7 +349,7 @@ data:
             "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "9.0.3",
+          "pluginVersion": "9.3.8",
           "targets": [
             {
               "datasource": {
@@ -410,7 +409,7 @@ data:
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "9.0.3",
+          "pluginVersion": "9.3.8",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -563,7 +562,7 @@ data:
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "9.0.3",
+          "pluginVersion": "9.3.8",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -608,7 +607,7 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "histogram_quantile(.99, sum(rate(http_request_duration_seconds_bucket{namespace=\"assisted-installer-production\"}[5m])) by (le))",
+              "expr": "histogram_quantile(.99, sum(rate(http_request_duration_seconds_bucket{namespace=\"$namespace\"}[5m])) by (le))",
               "hide": false,
               "legendFormat": "99th percentile",
               "range": true,
@@ -692,7 +691,7 @@ data:
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "9.0.3",
+          "pluginVersion": "9.3.8",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -712,6 +711,12 @@ data:
               "dashLength": 3,
               "dashes": true,
               "fill": 0
+            },
+            {
+              "$$hashKey": "object:247",
+              "alias": "/Memory usage.*/",
+              "dashes": true,
+              "zindex": -3
             }
           ],
           "spaceLength": 10,
@@ -724,6 +729,7 @@ data:
                 "uid": "gH4yqWBnz"
               },
               "expr": "sum(container_memory_working_set_bytes{namespace=\"$namespace\", pod=~\"assisted-service-.*\", container=\"assisted-service\"}) by (pod)",
+              "hide": false,
               "interval": "",
               "legendFormat": "{{ pod }}",
               "refId": "A"
@@ -751,6 +757,18 @@ data:
               "legendFormat": "Limits",
               "range": true,
               "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "sum(container_memory_usage_bytes{namespace=\"$namespace\", pod=~\"assisted-service-.*\", container=\"assisted-service\"}) by (pod)",
+              "hide": false,
+              "legendFormat": "Memory usage {{pod}}",
+              "range": true,
+              "refId": "D"
             }
           ],
           "thresholds": [],
@@ -829,7 +847,7 @@ data:
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "9.0.3",
+          "pluginVersion": "9.3.8",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -895,6 +913,8 @@ data:
                 "mode": "palette-classic"
               },
               "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
                 "axisLabel": "",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
@@ -928,7 +948,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -950,7 +971,8 @@ data:
             "legend": {
               "calcs": [],
               "displayMode": "list",
-              "placement": "bottom"
+              "placement": "bottom",
+              "showLegend": true
             },
             "tooltip": {
               "mode": "multi",
@@ -1011,7 +1033,7 @@ data:
         }
       ],
       "refresh": false,
-      "schemaVersion": 36,
+      "schemaVersion": 37,
       "style": "dark",
       "tags": [],
       "templating": {
@@ -1064,33 +1086,6 @@ data:
             "tagsQuery": "",
             "type": "query",
             "useTags": false
-          },
-          {
-            "current": {
-              "isNone": true,
-              "selected": false,
-              "text": "None",
-              "value": ""
-            },
-            "datasource": {
-              "type": "prometheus",
-              "uid": "tuHy3WB7z"
-            },
-            "definition": "",
-            "hide": 0,
-            "includeAll": false,
-            "multi": false,
-            "name": "interval",
-            "options": [],
-            "query": {
-              "query": "",
-              "refId": "StandardVariableQuery"
-            },
-            "refresh": 1,
-            "regex": "",
-            "skipUrlSync": false,
-            "sort": 0,
-            "type": "query"
           },
           {
             "current": {
@@ -1152,6 +1147,6 @@ data:
       "timezone": "",
       "title": "Assisted Service Resource Dashboard",
       "uid": "assisted-service-resource-dashboard",
-      "version": 454,
+      "version": 1,
       "weekStart": ""
     }
