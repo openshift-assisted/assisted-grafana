@@ -417,7 +417,7 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "aws_kafka_zoo_keeper_session_state_minimum{cluster_name=~\"assisted-installer.*\"}",
+              "expr": "max(aws_kafka_zoo_keeper_session_state_minimum{cluster_name=~\"assisted-installer.*\"}) by (broker_id)",
               "legendFormat": "Broker {{broker_id}}",
               "range": true,
               "refId": "A"
@@ -425,6 +425,75 @@ data:
           ],
           "title": "ZooKeeper Session state",
           "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "#EAB839",
+                    "value": 70
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 6,
+            "x": 18,
+            "y": 1
+          },
+          "id": 48,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
+          },
+          "pluginVersion": "9.3.8",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "max(aws_kafka_heap_memory_after_gc_maximum{cluster_name=~\"assisted-installer.*\"}) by (broker_id)",
+              "legendFormat": "memory broker {{broker_id}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Memory usage after GC",
+          "type": "gauge"
         },
         {
           "datasource": {
@@ -461,8 +530,8 @@ data:
           "gridPos": {
             "h": 7,
             "w": 3,
-            "x": 18,
-            "y": 1
+            "x": 0,
+            "y": 8
           },
           "id": 43,
           "options": {
@@ -502,7 +571,7 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 8
+            "y": 15
           },
           "id": 33,
           "panels": [],
@@ -571,7 +640,7 @@ data:
             "h": 9,
             "w": 12,
             "x": 0,
-            "y": 9
+            "y": 16
           },
           "id": 19,
           "options": {
@@ -663,7 +732,7 @@ data:
             "h": 9,
             "w": 12,
             "x": 12,
-            "y": 9
+            "y": 16
           },
           "id": 6,
           "options": {
@@ -700,7 +769,7 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 18
+            "y": 25
           },
           "id": 31,
           "panels": [],
@@ -768,7 +837,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 19
+            "y": 26
           },
           "id": 23,
           "options": {
@@ -921,7 +990,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 19
+            "y": 26
           },
           "id": 21,
           "options": {
@@ -958,7 +1027,7 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 27
+            "y": 34
           },
           "id": 9,
           "panels": [],
@@ -1011,7 +1080,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1054,7 +1124,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 28
+            "y": 35
           },
           "id": 41,
           "options": {
@@ -1166,7 +1236,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1264,7 +1335,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 28
+            "y": 35
           },
           "id": 15,
           "options": {
@@ -1413,7 +1484,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1429,7 +1501,7 @@ data:
             "h": 9,
             "w": 12,
             "x": 0,
-            "y": 36
+            "y": 43
           },
           "id": 2,
           "options": {
@@ -1530,7 +1602,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1546,7 +1619,7 @@ data:
             "h": 9,
             "w": 12,
             "x": 12,
-            "y": 36
+            "y": 43
           },
           "id": 46,
           "options": {
@@ -1623,7 +1696,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1639,7 +1713,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 45
+            "y": 52
           },
           "id": 17,
           "options": {
@@ -1727,7 +1801,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1742,7 +1817,7 @@ data:
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 45
+            "y": 52
           },
           "id": 45,
           "options": {
@@ -1782,9 +1857,9 @@ data:
         "list": [
           {
             "current": {
-              "selected": false,
-              "text": "app-sre-prod-01-prometheus",
-              "value": "app-sre-prod-01-prometheus"
+              "selected": true,
+              "text": "app-sre-stage-01-prometheus",
+              "value": "app-sre-stage-01-prometheus"
             },
             "hide": 0,
             "includeAll": false,
@@ -1801,13 +1876,13 @@ data:
         ]
       },
       "time": {
-        "from": "now-2d",
+        "from": "now-30m",
         "to": "now"
       },
       "timepicker": {},
       "timezone": "",
       "title": "Assisted Installer Kafka",
       "uid": "V4mSz6j4k",
-      "version": 7,
+      "version": 8,
       "weekStart": ""
     }
