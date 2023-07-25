@@ -107,7 +107,7 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "aws_kafka_global_topic_count_maximum{cluster_name=~\"assisted-installer.*\"}",
+              "expr": "max(aws_kafka_global_topic_count_maximum{cluster_name=~\"assisted-installer.*\"}) by (cluster_name)",
               "legendFormat": "__auto",
               "range": true,
               "refId": "A"
@@ -214,7 +214,7 @@ data:
           },
           "gridPos": {
             "h": 7,
-            "w": 3,
+            "w": 6,
             "x": 6,
             "y": 1
           },
@@ -241,13 +241,13 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(aws_kafka_max_offset_lag_maximum{cluster_name=~\"assisted-installer.*\",consumer_group=~\"enriched.*\"})",
+              "expr": "max(aws_kafka_max_offset_lag_maximum{cluster_name=~\"assisted-installer.*\",consumer_group!~\"^amazon.*\"}) by (consumer_group)",
               "legendFormat": "__auto",
               "range": true,
               "refId": "A"
             }
           ],
-          "title": "Offset lag sum",
+          "title": "Offset lag",
           "type": "stat"
         },
         {
@@ -255,6 +255,7 @@ data:
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "description": "Time estimate (in seconds) to drain MaxOffsetLag.",
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -270,25 +271,24 @@ data:
                   },
                   {
                     "color": "#EAB839",
-                    "value": 80
+                    "value": 600
                   },
                   {
                     "color": "red",
-                    "value": 90
+                    "value": 3600
                   }
                 ]
-              },
-              "unit": "percent"
+              }
             },
             "overrides": []
           },
           "gridPos": {
             "h": 7,
-            "w": 3,
-            "x": 9,
+            "w": 6,
+            "x": 12,
             "y": 1
           },
-          "id": 37,
+          "id": 55,
           "options": {
             "colorMode": "value",
             "graphMode": "area",
@@ -311,13 +311,282 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "avg(aws_kafka_cpu_user_maximum{cluster_name=~\"assisted-installer.*\"})",
+              "expr": "max(aws_kafka_estimated_max_time_lag_maximum{cluster_name=~\"assisted-installer.*\",consumer_group!~\"^amazon.*$\"}) by (consumer_group)",
               "legendFormat": "__auto",
               "range": true,
               "refId": "A"
             }
           ],
-          "title": "Average maximum CPU usage",
+          "title": "Estimated Offset Lag time",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "#EAB839",
+                    "value": 70
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 6,
+            "x": 18,
+            "y": 1
+          },
+          "id": 48,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
+          },
+          "pluginVersion": "9.3.8",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "max(aws_kafka_heap_memory_after_gc_maximum{cluster_name=~\"assisted-installer.*\"}) by (broker_id)",
+              "legendFormat": "broker {{broker_id}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Memory usage after GC",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "description": "Broker with least credits",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 300
+                  },
+                  {
+                    "color": "green",
+                    "value": 500
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 3,
+            "x": 0,
+            "y": 8
+          },
+          "id": 43,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.3.8",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "min(aws_kafka_cpucredit_balance_minimum{cluster_name=~\"assisted-installer.*\"})",
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "CPU Credits",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 6,
+            "x": 3,
+            "y": 8
+          },
+          "id": 50,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.3.8",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "max(aws_kafka_under_min_isr_partition_count_maximum{cluster_name=~\"assisted-installer.*\"}) by (broker_id)",
+              "legendFormat": "broker {{broker_id}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Partitions under min Isr",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 6,
+            "x": 9,
+            "y": 8
+          },
+          "id": 51,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.3.8",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "max(aws_kafka_under_replicated_partitions_maximum{cluster_name=~\"assisted-installer.*\"}) by (broker_id)",
+              "legendFormat": "broker {{broker_id}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Under replicated partitions",
           "type": "stat"
         },
         {
@@ -391,8 +660,8 @@ data:
           "gridPos": {
             "h": 7,
             "w": 6,
-            "x": 12,
-            "y": 1
+            "x": 15,
+            "y": 8
           },
           "id": 39,
           "options": {
@@ -431,7 +700,6 @@ data:
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "description": "",
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -447,11 +715,11 @@ data:
                   },
                   {
                     "color": "#EAB839",
-                    "value": 70
+                    "value": 80
                   },
                   {
                     "color": "red",
-                    "value": 80
+                    "value": 90
                   }
                 ]
               },
@@ -461,79 +729,11 @@ data:
           },
           "gridPos": {
             "h": 7,
-            "w": 6,
-            "x": 18,
-            "y": 1
-          },
-          "id": 48,
-          "options": {
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showThresholdLabels": false,
-            "showThresholdMarkers": true
-          },
-          "pluginVersion": "9.3.8",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${datasource}"
-              },
-              "editorMode": "code",
-              "expr": "max(aws_kafka_heap_memory_after_gc_maximum{cluster_name=~\"assisted-installer.*\"}) by (broker_id)",
-              "legendFormat": "memory broker {{broker_id}}",
-              "range": true,
-              "refId": "A"
-            }
-          ],
-          "title": "Memory usage after GC",
-          "type": "gauge"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "red",
-                    "value": null
-                  },
-                  {
-                    "color": "yellow",
-                    "value": 300
-                  },
-                  {
-                    "color": "green",
-                    "value": 500
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 7,
             "w": 3,
-            "x": 0,
+            "x": 21,
             "y": 8
           },
-          "id": 43,
+          "id": 37,
           "options": {
             "colorMode": "value",
             "graphMode": "area",
@@ -556,13 +756,13 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "min(aws_kafka_cpucredit_balance_minimum{cluster_name=~\"assisted-installer.*\"})",
+              "expr": "avg(aws_kafka_cpu_user_maximum{cluster_name=~\"assisted-installer.*\"})",
               "legendFormat": "__auto",
               "range": true,
               "refId": "A"
             }
           ],
-          "title": "CPU Credits",
+          "title": "Average maximum CPU usage",
           "type": "stat"
         },
         {
@@ -754,7 +954,7 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "aws_kafka_max_offset_lag_maximum{cluster_name=~\"assisted-installer.*\",consumer_group=~\"enriched.*\"}",
+              "expr": "max(aws_kafka_max_offset_lag_maximum{cluster_name=~\"assisted-installer.*\",consumer_group=~\"enriched.*\"}) by (consumer_group)",
               "legendFormat": "offset lag {{consumer_group}}",
               "range": true,
               "refId": "A"
@@ -829,7 +1029,8 @@ data:
                     "value": 80
                   }
                 ]
-              }
+              },
+              "unit": "binBps"
             },
             "overrides": []
           },
@@ -859,8 +1060,8 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(aws_kafka_network_rx_packets_maximum{cluster_name=~\"assisted-installer.*\"})",
-              "legendFormat": "rx packets",
+              "expr": "sum(aws_kafka_bytes_in_per_sec_maximum{cluster_name=~\"assisted-installer.*\"})",
+              "legendFormat": "bytes in",
               "range": true,
               "refId": "A"
             },
@@ -870,62 +1071,14 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(aws_kafka_network_rx_dropped_maximum{cluster_name=~\"assisted-installer.*\"})",
+              "expr": "- sum(aws_kafka_bytes_out_per_sec_maximum{cluster_name=~\"assisted-installer.*\"})",
               "hide": false,
-              "legendFormat": "rx dropped",
+              "legendFormat": "bytes out",
               "range": true,
               "refId": "B"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${datasource}"
-              },
-              "editorMode": "code",
-              "expr": "sum(aws_kafka_network_rx_errors_maximum{cluster_name=~\"assisted-installer.*\"})",
-              "hide": false,
-              "legendFormat": "rx errors",
-              "range": true,
-              "refId": "C"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${datasource}"
-              },
-              "editorMode": "code",
-              "expr": "- sum(aws_kafka_network_tx_packets_maximum{cluster_name=~\"assisted-installer.*\"})",
-              "hide": false,
-              "legendFormat": "tx packets",
-              "range": true,
-              "refId": "D"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${datasource}"
-              },
-              "editorMode": "code",
-              "expr": "- sum(aws_kafka_network_tx_dropped_maximum{cluster_name=~\"assisted-installer.*\"})",
-              "hide": false,
-              "legendFormat": "tx dropped",
-              "range": true,
-              "refId": "E"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${datasource}"
-              },
-              "editorMode": "code",
-              "expr": "- sum(aws_kafka_network_tx_errors_maximum{cluster_name=~\"assisted-installer.*\"})",
-              "hide": false,
-              "legendFormat": "tx errors",
-              "range": true,
-              "refId": "F"
             }
           ],
-          "title": "Network",
+          "title": "Bytes In/Out",
           "type": "timeseries"
         },
         {
@@ -1012,7 +1165,7 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "aws_kafka_zoo_keeper_request_latency_ms_mean_maximum{cluster_name=~\"assisted-installer.*\"}",
+              "expr": "max(aws_kafka_zoo_keeper_request_latency_ms_mean_maximum{cluster_name=~\"assisted-installer.*\"}) by (broker_id)",
               "legendFormat": "ZooKeeper latency broker {{broker_id}}",
               "range": true,
               "refId": "A"
@@ -1735,7 +1888,7 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "aws_kafka_kafka_data_logs_disk_used_maximum{cluster_name=~\"assisted-installer.*\"}",
+              "expr": "max(aws_kafka_kafka_data_logs_disk_used_maximum{cluster_name=~\"assisted-installer.*\"}) by (broker_id)",
               "legendFormat": "logs disk used (broker {{broker_id}})",
               "range": true,
               "refId": "A"
@@ -1746,7 +1899,7 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "aws_kafka_root_disk_used_maximum{cluster_name=~\"assisted-installer.*\"}",
+              "expr": "max(aws_kafka_root_disk_used_maximum{cluster_name=~\"assisted-installer.*\"}) by (broker_id)",
               "hide": false,
               "legendFormat": "root disk used (broker {{broker_id}})",
               "range": true,
@@ -1811,13 +1964,153 @@ data:
                 ]
               }
             },
-            "overrides": []
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": ".*broker 1$"
+                },
+                "properties": [
+                  {
+                    "id": "custom.stacking",
+                    "value": {
+                      "group": "A",
+                      "mode": "normal"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": ".*broker 2$"
+                },
+                "properties": [
+                  {
+                    "id": "custom.stacking",
+                    "value": {
+                      "group": "B",
+                      "mode": "normal"
+                    }
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 20
+                  }
+                ]
+              }
+            ]
           },
           "gridPos": {
             "h": 8,
             "w": 12,
             "x": 12,
             "y": 52
+          },
+          "id": 53,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "9.3.8",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "max(aws_kafka_swap_free_maximum{cluster_name=~\"assisted-installer.*\"}) by (broker_id)",
+              "legendFormat": "swap free broker {{broker_id}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "max(aws_kafka_swap_used_maximum{cluster_name=~\"assisted-installer.*\"}) by (broker_id)",
+              "hide": false,
+              "legendFormat": "swap used broker {{broker_id}}",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "Swap",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 60
           },
           "id": 45,
           "options": {
@@ -1839,8 +2132,8 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "min(aws_kafka_cpucredit_balance_minimum{cluster_name=~\"assisted-installer.*\"})",
-              "legendFormat": "__auto",
+              "expr": "min(aws_kafka_cpucredit_balance_minimum{cluster_name=~\"assisted-installer.*\"}) by (cluster_name, broker_id)",
+              "legendFormat": "credits broker {{broker_id}}",
               "range": true,
               "refId": "A"
             }
@@ -1876,13 +2169,13 @@ data:
         ]
       },
       "time": {
-        "from": "now-30m",
+        "from": "now-2d",
         "to": "now"
       },
       "timepicker": {},
       "timezone": "",
       "title": "Assisted Installer Kafka",
       "uid": "V4mSz6j4k",
-      "version": 8,
+      "version": 10,
       "weekStart": ""
     }
