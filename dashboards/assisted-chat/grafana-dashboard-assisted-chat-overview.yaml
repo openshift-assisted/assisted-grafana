@@ -47,7 +47,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P21873DB8DE1CE799"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -128,10 +128,10 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P21873DB8DE1CE799"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(increase(assisted_service_mcp_tool_request_count_total[1h])) by (tool)",
+              "expr": "sum(increase(assisted_service_mcp_tool_request_count_total{namespace=\"$namespace\"}[1h])) by (tool)",
               "legendFormat": "__auto",
               "range": true,
               "refId": "A"
@@ -143,7 +143,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P21873DB8DE1CE799"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -224,10 +224,10 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P21873DB8DE1CE799"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum by (tool) (rate(assisted_service_mcp_tool_request_duration_sum[1h])) /\nsum by (tool) (rate(assisted_service_mcp_tool_request_duration_count[1h]))",
+              "expr": "sum by (tool) (rate(assisted_service_mcp_tool_request_duration_sum{namespace=\"$namespace\"}[1h])) /\nsum by (tool) (rate(assisted_service_mcp_tool_request_duration_count{namespace=\"$namespace\"}[1h]))",
               "legendFormat": "__auto",
               "range": true,
               "refId": "A"
@@ -239,7 +239,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P21873DB8DE1CE799"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -320,10 +320,10 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P21873DB8DE1CE799"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "histogram_quantile(0.95, sum(rate(assisted_service_mcp_tool_request_duration_bucket[1h])) by (le, tool))",
+              "expr": "histogram_quantile(0.95, sum(rate(assisted_service_mcp_tool_request_duration_bucket{namespace=\"$namespace\"}[1h])) by (le, tool))",
               "legendFormat": "__auto",
               "range": true,
               "refId": "A"
@@ -337,7 +337,44 @@ data:
       "schemaVersion": 41,
       "tags": [],
       "templating": {
-        "list": []
+        "list": [
+          {
+            "allowCustomValue": false,
+            "current": {
+              "text": "app-sre-stage-01-prometheus",
+              "value": "P21873DB8DE1CE799"
+            },
+            "name": "datasource",
+            "options": [],
+            "query": "prometheus",
+            "refresh": 1,
+            "regex": "/^app-sre-stage-01-prometheus|app-sre-prod-04-prometheus/",
+            "type": "datasource"
+          },
+          {
+            "allowCustomValue": false,
+            "current": {
+              "text": "assisted-chat-integration",
+              "value": "assisted-chat-integration"
+            },
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${datasource}"
+            },
+            "definition": "label_values(namespace)",
+            "label": "namespace",
+            "name": "namespace",
+            "options": [],
+            "query": {
+              "qryType": 1,
+              "query": "label_values(namespace)",
+              "refId": "PrometheusVariableQueryEditor-VariableQuery"
+            },
+            "refresh": 1,
+            "regex": "/assisted-chat.*/",
+            "type": "query"
+          }
+        ]
       },
       "time": {
         "from": "now-24h",
@@ -347,5 +384,5 @@ data:
       "timezone": "UTC",
       "title": "Assisted-Chat Overview",
       "uid": "feskyd7hytaf4e",
-      "version": 4
+      "version": 5
     }
