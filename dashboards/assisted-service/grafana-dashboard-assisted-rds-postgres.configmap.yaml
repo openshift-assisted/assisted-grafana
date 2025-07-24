@@ -1061,7 +1061,7 @@ data:
             "options": [],
             "query": "prometheus",
             "refresh": 1,
-            "regex": "/^appsre[p|s]07ue1-prometheus$/",
+            "regex": "/^appsre[p|s]11ue1-prometheus$/",
             "skipUrlSync": false,
             "type": "datasource"
           }
