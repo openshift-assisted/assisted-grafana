@@ -131,7 +131,7 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(rate(ls_rest_api_calls_total{namespace=\"$namespace\",path=\"/\",status_code=~\"2.*\"}[10m])) / sum(rate(ls_rest_api_calls_total{namespace=\"$namespace\",path=\"/\"}[10m]))",
+              "expr": "sum(rate(ls_rest_api_calls_total{namespace=\"$namespace\",status_code=~\"2.*\"}[10m])) / sum(rate(ls_rest_api_calls_total{namespace=\"$namespace\"}[10m]))",
               "legendFormat": "assisted-chat",
               "range": true,
               "refId": "A"
@@ -227,7 +227,7 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum by (service) (rate(ls_response_duration_seconds_sum{namespace=\"$namespace\",path=\"/\"}[10m])) /\nsum by (service) (rate(ls_response_duration_seconds_count{namespace=\"$namespace\",path=\"/\"}[10m]))",
+              "expr": "sum by (path) (rate(ls_response_duration_seconds_sum{namespace=\"$namespace\"}[10m])) /\nsum by (path) (rate(ls_response_duration_seconds_count{namespace=\"$namespace\"}[10m]))",
               "legendFormat": "__auto",
               "range": true,
               "refId": "A"
@@ -323,7 +323,7 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "histogram_quantile(0.95, sum(rate(ls_response_duration_seconds_bucket{namespace=\"$namespace\",path=\"/\"}[10m])) by (le, service))",
+              "expr": "histogram_quantile(0.95, sum(rate(ls_response_duration_seconds_bucket{namespace=\"$namespace\"}[10m])) by (le, path))",
               "legendFormat": "__auto",
               "range": true,
               "refId": "A"
