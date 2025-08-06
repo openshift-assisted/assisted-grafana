@@ -38,7 +38,7 @@ data:
       "links": [],
       "panels": [
         {
-          "collapsed": false,
+          "collapsed": true,
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -46,238 +46,362 @@ data:
             "y": 0
           },
           "id": 5,
-          "panels": [],
+          "panels": [
+            {
+              "datasource": {
+                "type": "cloudwatch",
+                "uid": "P1A97A9592CB7F392"
+              },
+              "description": "Last lines of the log",
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              },
+              "gridPos": {
+                "h": 12,
+                "w": 12,
+                "x": 0,
+                "y": 1
+              },
+              "id": 6,
+              "options": {
+                "dedupStrategy": "none",
+                "enableInfiniteScrolling": false,
+                "enableLogDetails": true,
+                "prettifyLogMessage": false,
+                "showCommonLabels": false,
+                "showLabels": false,
+                "showTime": false,
+                "sortOrder": "Descending",
+                "wrapLogMessage": false
+              },
+              "pluginVersion": "11.6.3",
+              "targets": [
+                {
+                  "datasource": {
+                    "type": "cloudwatch",
+                    "uid": "P1A97A9592CB7F392"
+                  },
+                  "expression": "fields message\n| filter kubernetes.container_name = \"lightspeed-stack\" and kubernetes.namespace_name = \"assisted-chat-integration\"\n| sort @timestamp desc\n| limit 300",
+                  "id": "",
+                  "logGroups": [
+                    {
+                      "accountId": "744086762512",
+                      "arn": "arn:aws:logs:us-east-1:744086762512:log-group:app-sre-stage-01.assisted-chat-integration:*",
+                      "name": "app-sre-stage-01.assisted-chat-integration"
+                    }
+                  ],
+                  "namespace": "",
+                  "queryMode": "Logs",
+                  "refId": "A",
+                  "region": "default",
+                  "statsGroups": []
+                }
+              ],
+              "title": "Lightspeed stack",
+              "type": "logs"
+            },
+            {
+              "datasource": {
+                "type": "cloudwatch",
+                "uid": "P1A97A9592CB7F392"
+              },
+              "description": "Last lines of the log",
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              },
+              "gridPos": {
+                "h": 12,
+                "w": 12,
+                "x": 12,
+                "y": 1
+              },
+              "id": 10,
+              "options": {
+                "dedupStrategy": "none",
+                "enableInfiniteScrolling": false,
+                "enableLogDetails": true,
+                "prettifyLogMessage": false,
+                "showCommonLabels": false,
+                "showLabels": false,
+                "showTime": false,
+                "sortOrder": "Descending",
+                "wrapLogMessage": false
+              },
+              "pluginVersion": "11.6.3",
+              "targets": [
+                {
+                  "datasource": {
+                    "type": "cloudwatch",
+                    "uid": "P1A97A9592CB7F392"
+                  },
+                  "expression": "fields message\n| filter kubernetes.container_name = \"assisted-service-mcp\" and kubernetes.namespace_name = \"assisted-chat-integration\"\n| sort @timestamp desc\n| limit 300",
+                  "id": "",
+                  "logGroups": [
+                    {
+                      "accountId": "744086762512",
+                      "arn": "arn:aws:logs:us-east-1:744086762512:log-group:app-sre-stage-01.assisted-chat-integration:*",
+                      "name": "app-sre-stage-01.assisted-chat-integration"
+                    }
+                  ],
+                  "namespace": "",
+                  "queryMode": "Logs",
+                  "refId": "A",
+                  "region": "default",
+                  "statsGroups": []
+                }
+              ],
+              "title": "MCP server",
+              "type": "logs"
+            }
+          ],
           "title": "Integration",
           "type": "row"
         },
         {
-          "datasource": {
-            "type": "cloudwatch",
-            "uid": "P1A97A9592CB7F392"
-          },
-          "description": "Last lines of the log",
-          "fieldConfig": {
-            "defaults": {},
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 12,
-            "w": 12,
-            "x": 0,
-            "y": 1
-          },
-          "id": 6,
-          "options": {
-            "dedupStrategy": "none",
-            "enableInfiniteScrolling": false,
-            "enableLogDetails": true,
-            "prettifyLogMessage": false,
-            "showCommonLabels": false,
-            "showLabels": false,
-            "showTime": false,
-            "sortOrder": "Descending",
-            "wrapLogMessage": false
-          },
-          "pluginVersion": "11.6.3",
-          "targets": [
-            {
-              "datasource": {
-                "type": "cloudwatch",
-                "uid": "P1A97A9592CB7F392"
-              },
-              "expression": "fields message\n| filter kubernetes.container_name = \"lightspeed-stack\" and kubernetes.namespace_name = \"assisted-chat-integration\"\n| sort @timestamp desc\n| limit 300",
-              "id": "",
-              "logGroups": [
-                {
-                  "accountId": "744086762512",
-                  "arn": "arn:aws:logs:us-east-1:744086762512:log-group:app-sre-stage-01.assisted-chat-integration:*",
-                  "name": "app-sre-stage-01.assisted-chat-integration"
-                }
-              ],
-              "namespace": "",
-              "queryMode": "Logs",
-              "refId": "A",
-              "region": "default",
-              "statsGroups": []
-            }
-          ],
-          "title": "Lightspeed stack",
-          "type": "logs"
-        },
-        {
-          "datasource": {
-            "type": "cloudwatch",
-            "uid": "P1A97A9592CB7F392"
-          },
-          "description": "Last lines of the log",
-          "fieldConfig": {
-            "defaults": {},
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 12,
-            "w": 12,
-            "x": 12,
-            "y": 1
-          },
-          "id": 10,
-          "options": {
-            "dedupStrategy": "none",
-            "enableInfiniteScrolling": false,
-            "enableLogDetails": true,
-            "prettifyLogMessage": false,
-            "showCommonLabels": false,
-            "showLabels": false,
-            "showTime": false,
-            "sortOrder": "Descending",
-            "wrapLogMessage": false
-          },
-          "pluginVersion": "11.6.3",
-          "targets": [
-            {
-              "datasource": {
-                "type": "cloudwatch",
-                "uid": "P1A97A9592CB7F392"
-              },
-              "expression": "fields message\n| filter kubernetes.container_name = \"assisted-service-mcp\" and kubernetes.namespace_name = \"assisted-chat-integration\"\n| sort @timestamp desc\n| limit 300",
-              "id": "",
-              "logGroups": [
-                {
-                  "accountId": "744086762512",
-                  "arn": "arn:aws:logs:us-east-1:744086762512:log-group:app-sre-stage-01.assisted-chat-integration:*",
-                  "name": "app-sre-stage-01.assisted-chat-integration"
-                }
-              ],
-              "namespace": "",
-              "queryMode": "Logs",
-              "refId": "A",
-              "region": "default",
-              "statsGroups": []
-            }
-          ],
-          "title": "MCP server",
-          "type": "logs"
-        },
-        {
-          "collapsed": false,
+          "collapsed": true,
           "gridPos": {
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 13
+            "y": 1
           },
           "id": 9,
-          "panels": [],
+          "panels": [
+            {
+              "datasource": {
+                "type": "cloudwatch",
+                "uid": "P1A97A9592CB7F392"
+              },
+              "description": "Last lines of the log",
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              },
+              "gridPos": {
+                "h": 12,
+                "w": 12,
+                "x": 0,
+                "y": 2
+              },
+              "id": 11,
+              "options": {
+                "dedupStrategy": "none",
+                "enableInfiniteScrolling": false,
+                "enableLogDetails": true,
+                "prettifyLogMessage": false,
+                "showCommonLabels": false,
+                "showLabels": false,
+                "showTime": false,
+                "sortOrder": "Descending",
+                "wrapLogMessage": false
+              },
+              "pluginVersion": "11.6.3",
+              "targets": [
+                {
+                  "datasource": {
+                    "type": "cloudwatch",
+                    "uid": "P1A97A9592CB7F392"
+                  },
+                  "expression": "fields message\n| filter kubernetes.container_name = \"lightspeed-stack\" and kubernetes.namespace_name = \"assisted-chat-stage\"\n| sort @timestamp desc\n| limit 300",
+                  "id": "",
+                  "logGroups": [
+                    {
+                      "accountId": "744086762512",
+                      "arn": "arn:aws:logs:us-east-1:744086762512:log-group:app-sre-stage-01.assisted-chat-stage:*",
+                      "name": "app-sre-stage-01.assisted-chat-stage"
+                    }
+                  ],
+                  "namespace": "",
+                  "queryMode": "Logs",
+                  "refId": "A",
+                  "region": "default",
+                  "statsGroups": []
+                }
+              ],
+              "title": "Lightspeed stack",
+              "type": "logs"
+            },
+            {
+              "datasource": {
+                "type": "cloudwatch",
+                "uid": "P1A97A9592CB7F392"
+              },
+              "description": "Last lines of the log",
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              },
+              "gridPos": {
+                "h": 12,
+                "w": 12,
+                "x": 12,
+                "y": 2
+              },
+              "id": 12,
+              "options": {
+                "dedupStrategy": "none",
+                "enableInfiniteScrolling": false,
+                "enableLogDetails": true,
+                "prettifyLogMessage": false,
+                "showCommonLabels": false,
+                "showLabels": false,
+                "showTime": false,
+                "sortOrder": "Descending",
+                "wrapLogMessage": false
+              },
+              "pluginVersion": "11.6.3",
+              "targets": [
+                {
+                  "datasource": {
+                    "type": "cloudwatch",
+                    "uid": "P1A97A9592CB7F392"
+                  },
+                  "expression": "fields message\n| filter kubernetes.container_name = \"assisted-service-mcp\" and kubernetes.namespace_name = \"assisted-chat-stage\"\n| sort @timestamp desc\n| limit 300",
+                  "id": "",
+                  "logGroups": [
+                    {
+                      "accountId": "744086762512",
+                      "arn": "arn:aws:logs:us-east-1:744086762512:log-group:app-sre-stage-01.assisted-chat-stage:*",
+                      "name": "app-sre-stage-01.assisted-chat-stage"
+                    }
+                  ],
+                  "namespace": "",
+                  "queryMode": "Logs",
+                  "refId": "A",
+                  "region": "default",
+                  "statsGroups": []
+                }
+              ],
+              "title": "MCP server",
+              "type": "logs"
+            }
+          ],
           "title": "Stage",
           "type": "row"
         },
         {
-          "datasource": {
-            "type": "cloudwatch",
-            "uid": "P1A97A9592CB7F392"
-          },
-          "description": "Last lines of the log",
-          "fieldConfig": {
-            "defaults": {},
-            "overrides": []
-          },
+          "collapsed": true,
           "gridPos": {
-            "h": 12,
-            "w": 12,
+            "h": 1,
+            "w": 24,
             "x": 0,
-            "y": 14
+            "y": 2
           },
-          "id": 11,
-          "options": {
-            "dedupStrategy": "none",
-            "enableInfiniteScrolling": false,
-            "enableLogDetails": true,
-            "prettifyLogMessage": false,
-            "showCommonLabels": false,
-            "showLabels": false,
-            "showTime": false,
-            "sortOrder": "Descending",
-            "wrapLogMessage": false
-          },
-          "pluginVersion": "11.6.3",
-          "targets": [
+          "id": 15,
+          "panels": [
             {
               "datasource": {
                 "type": "cloudwatch",
                 "uid": "P1A97A9592CB7F392"
               },
-              "expression": "fields message\n| filter kubernetes.container_name = \"lightspeed-stack\" and kubernetes.namespace_name = \"assisted-chat-stage\"\n| sort @timestamp desc\n| limit 300",
-              "id": "",
-              "logGroups": [
+              "description": "Last lines of the log",
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              },
+              "gridPos": {
+                "h": 12,
+                "w": 12,
+                "x": 0,
+                "y": 3
+              },
+              "id": 13,
+              "options": {
+                "dedupStrategy": "none",
+                "enableInfiniteScrolling": false,
+                "enableLogDetails": true,
+                "prettifyLogMessage": false,
+                "showCommonLabels": false,
+                "showLabels": false,
+                "showTime": false,
+                "sortOrder": "Descending",
+                "wrapLogMessage": false
+              },
+              "pluginVersion": "11.6.3",
+              "targets": [
                 {
-                  "accountId": "744086762512",
-                  "arn": "arn:aws:logs:us-east-1:744086762512:log-group:app-sre-stage-01.assisted-chat-stage:*",
-                  "name": "app-sre-stage-01.assisted-chat-stage"
+                  "datasource": {
+                    "type": "cloudwatch",
+                    "uid": "P1A97A9592CB7F392"
+                  },
+                  "expression": "fields message\n| filter kubernetes.container_name = \"lightspeed-stack\" and kubernetes.namespace_name = \"assisted-chat-production\"\n| sort @timestamp desc\n| limit 300",
+                  "id": "",
+                  "logGroups": [
+                    {
+                      "accountId": "744086762512",
+                      "arn": "arn:aws:logs:us-east-1:744086762512:log-group:app-sre-prod-04.assisted-chat-production:*",
+                      "name": "app-sre-prod-04.assisted-chat-production"
+                    }
+                  ],
+                  "namespace": "",
+                  "queryMode": "Logs",
+                  "refId": "A",
+                  "region": "default",
+                  "statsGroups": []
                 }
               ],
-              "namespace": "",
-              "queryMode": "Logs",
-              "refId": "A",
-              "region": "default",
-              "statsGroups": []
-            }
-          ],
-          "title": "Lightspeed stack",
-          "type": "logs"
-        },
-        {
-          "datasource": {
-            "type": "cloudwatch",
-            "uid": "P1A97A9592CB7F392"
-          },
-          "description": "Last lines of the log",
-          "fieldConfig": {
-            "defaults": {},
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 12,
-            "w": 12,
-            "x": 12,
-            "y": 14
-          },
-          "id": 12,
-          "options": {
-            "dedupStrategy": "none",
-            "enableInfiniteScrolling": false,
-            "enableLogDetails": true,
-            "prettifyLogMessage": false,
-            "showCommonLabels": false,
-            "showLabels": false,
-            "showTime": false,
-            "sortOrder": "Descending",
-            "wrapLogMessage": false
-          },
-          "pluginVersion": "11.6.3",
-          "targets": [
+              "title": "Lightspeed stack",
+              "type": "logs"
+            },
             {
               "datasource": {
                 "type": "cloudwatch",
                 "uid": "P1A97A9592CB7F392"
               },
-              "expression": "fields message\n| filter kubernetes.container_name = \"assisted-service-mcp\" and kubernetes.namespace_name = \"assisted-chat-stage\"\n| sort @timestamp desc\n| limit 300",
-              "id": "",
-              "logGroups": [
+              "description": "Last lines of the log",
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              },
+              "gridPos": {
+                "h": 12,
+                "w": 12,
+                "x": 12,
+                "y": 3
+              },
+              "id": 14,
+              "options": {
+                "dedupStrategy": "none",
+                "enableInfiniteScrolling": false,
+                "enableLogDetails": true,
+                "prettifyLogMessage": false,
+                "showCommonLabels": false,
+                "showLabels": false,
+                "showTime": false,
+                "sortOrder": "Descending",
+                "wrapLogMessage": false
+              },
+              "pluginVersion": "11.6.3",
+              "targets": [
                 {
-                  "accountId": "744086762512",
-                  "arn": "arn:aws:logs:us-east-1:744086762512:log-group:app-sre-stage-01.assisted-chat-stage:*",
-                  "name": "app-sre-stage-01.assisted-chat-stage"
+                  "datasource": {
+                    "type": "cloudwatch",
+                    "uid": "P1A97A9592CB7F392"
+                  },
+                  "expression": "fields message\n| filter kubernetes.container_name = \"assisted-service-mcp\" and kubernetes.namespace_name = \"assisted-chat-production\"\n| sort @timestamp desc\n| limit 300",
+                  "id": "",
+                  "logGroups": [
+                    {
+                      "accountId": "744086762512",
+                      "arn": "arn:aws:logs:us-east-1:744086762512:log-group:app-sre-prod-04.assisted-chat-production:*",
+                      "name": "app-sre-prod-04.assisted-chat-production"
+                    }
+                  ],
+                  "namespace": "",
+                  "queryMode": "Logs",
+                  "refId": "A",
+                  "region": "default",
+                  "statsGroups": []
                 }
               ],
-              "namespace": "",
-              "queryMode": "Logs",
-              "refId": "A",
-              "region": "default",
-              "statsGroups": []
+              "title": "MCP server",
+              "type": "logs"
             }
           ],
-          "title": "MCP server",
-          "type": "logs"
+          "title": "Production",
+          "type": "row"
         }
       ],
       "preload": false,
@@ -295,5 +419,5 @@ data:
       "timezone": "utc",
       "title": "Assisted chat logs",
       "uid": "F8vaevHVz",
-      "version": 1
+      "version": 3
     }
