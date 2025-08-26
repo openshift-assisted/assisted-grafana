@@ -28,7 +28,7 @@ data:
       "editable": true,
       "fiscalYearStartMonth": 0,
       "graphTooltip": 0,
-      "id": 1026268,
+      "id": 1056748,
       "links": [],
       "panels": [
         {
@@ -41,7 +41,7 @@ data:
           },
           "id": 5,
           "panels": [],
-          "title": "Assisted Chat",
+          "title": "Lightspeed",
           "type": "row"
         },
         {
@@ -58,7 +58,7 @@ data:
                 "axisBorderShow": false,
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
-                "axisLabel": "",
+                "axisLabel": "% 2xx responses",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
                 "barWidthFactor": 0.6,
@@ -72,7 +72,7 @@ data:
                 },
                 "insertNulls": false,
                 "lineInterpolation": "linear",
-                "lineWidth": 1,
+                "lineWidth": 3,
                 "pointSize": 5,
                 "scaleDistribution": {
                   "type": "linear"
@@ -87,7 +87,10 @@ data:
                   "mode": "off"
                 }
               },
+              "decimals": 0,
               "mappings": [],
+              "max": 110,
+              "min": 0,
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
@@ -96,7 +99,7 @@ data:
                   },
                   {
                     "color": "red",
-                    "value": 80
+                    "value": 90
                   }
                 ]
               }
@@ -105,7 +108,7 @@ data:
           },
           "gridPos": {
             "h": 8,
-            "w": 8,
+            "w": 5,
             "x": 0,
             "y": 1
           },
@@ -115,7 +118,7 @@ data:
               "calcs": [],
               "displayMode": "list",
               "placement": "bottom",
-              "showLegend": true
+              "showLegend": false
             },
             "tooltip": {
               "hideZeros": false,
@@ -131,14 +134,97 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(rate(ls_rest_api_calls_total{namespace=\"$namespace\",status_code=~\"2.*\"}[10m])) / sum(rate(ls_rest_api_calls_total{namespace=\"$namespace\"}[10m]))",
+              "expr": "100 * sum(rate(ls_rest_api_calls_total{namespace=\"$namespace\",status_code=~\"2.*\"}[$__rate_interval])) / sum(rate(ls_rest_api_calls_total{namespace=\"$namespace\"}[$__rate_interval]))",
               "legendFormat": "assisted-chat",
               "range": true,
               "refId": "A"
             }
           ],
-          "title": "Lightspeed Core Stack availability",
+          "title": "% 2xx Responses",
           "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "description": "Shows counts in each of the buckets over time. Works best with a specific path selected.",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "scaleDistribution": {
+                  "type": "linear"
+                }
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 16,
+            "w": 6,
+            "x": 5,
+            "y": 1
+          },
+          "id": 9,
+          "interval": "1m",
+          "options": {
+            "calculate": false,
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "reverse": false,
+              "scale": "exponential",
+              "scheme": "Oranges",
+              "steps": 64
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-9
+            },
+            "legend": {
+              "show": false
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "mode": "single",
+              "showColorScale": false,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisLabel": "Response Time",
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "s"
+            }
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "sum(increase(ls_response_duration_seconds_bucket{namespace=\"$namespace\", path=~\"$lightspeed_path\"}[$__interval])) by (le)",
+              "format": "heatmap",
+              "legendFormat": "{{le}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Response Time Heatmap",
+          "type": "heatmap"
         },
         {
           "datasource": {
@@ -154,7 +240,7 @@ data:
                 "axisBorderShow": false,
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
-                "axisLabel": "",
+                "axisLabel": "Response Time",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
                 "barWidthFactor": 0.6,
@@ -184,6 +270,7 @@ data:
                 }
               },
               "mappings": [],
+              "min": 0,
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
@@ -195,22 +282,23 @@ data:
                     "value": 80
                   }
                 ]
-              }
+              },
+              "unit": "s"
             },
             "overrides": []
           },
           "gridPos": {
             "h": 8,
-            "w": 8,
-            "x": 8,
-            "y": 1
+            "w": 5,
+            "x": 0,
+            "y": 9
           },
           "id": 6,
           "options": {
             "legend": {
               "calcs": [],
               "displayMode": "list",
-              "placement": "bottom",
+              "placement": "right",
               "showLegend": true
             },
             "tooltip": {
@@ -227,109 +315,13 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum by (path) (rate(ls_response_duration_seconds_sum{namespace=\"$namespace\"}[10m])) /\nsum by (path) (rate(ls_response_duration_seconds_count{namespace=\"$namespace\"}[10m]))",
+              "expr": "sum by (path) (increase(ls_response_duration_seconds_sum{namespace=\"$namespace\", path=~\"$lightspeed_path\"}[$__rate_interval])) /\nsum by (path) (increase(ls_response_duration_seconds_count{namespace=\"$namespace\", path=~\"$lightspeed_path\"}[$__rate_interval]))",
               "legendFormat": "__auto",
               "range": true,
               "refId": "A"
             }
           ],
-          "title": "Lightspeed Core Stack latency (sum/count)",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 8,
-            "x": 16,
-            "y": 1
-          },
-          "id": 7,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "hideZeros": false,
-              "mode": "single",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "11.6.3",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${datasource}"
-              },
-              "editorMode": "code",
-              "expr": "histogram_quantile(0.95, sum(rate(ls_response_duration_seconds_bucket{namespace=\"$namespace\"}[10m])) by (le, path))",
-              "legendFormat": "__auto",
-              "range": true,
-              "refId": "A"
-            }
-          ],
-          "title": "Lightspeed Core Stack latency (bucket)",
+          "title": "Mean Response Times",
           "type": "timeseries"
         },
         {
@@ -338,11 +330,11 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 9
+            "y": 17
           },
           "id": 4,
           "panels": [],
-          "title": "Assisted service MCP",
+          "title": "MCP Service",
           "type": "row"
         },
         {
@@ -364,7 +356,7 @@ data:
                 "barAlignment": 0,
                 "barWidthFactor": 0.6,
                 "drawStyle": "line",
-                "fillOpacity": 0,
+                "fillOpacity": 5,
                 "gradientMode": "none",
                 "hideFrom": {
                   "legend": false,
@@ -388,16 +380,14 @@ data:
                   "mode": "off"
                 }
               },
+              "decimals": 0,
               "mappings": [],
+              "min": 0,
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
                   {
                     "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
                   }
                 ]
               }
@@ -405,17 +395,17 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 8,
-            "w": 8,
+            "h": 11,
+            "w": 7,
             "x": 0,
-            "y": 10
+            "y": 18
           },
           "id": 1,
           "options": {
             "legend": {
               "calcs": [],
               "displayMode": "list",
-              "placement": "bottom",
+              "placement": "right",
               "showLegend": true
             },
             "tooltip": {
@@ -432,13 +422,13 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(increase(assisted_service_mcp_tool_request_count_total{namespace=\"$namespace\"}[1h])) by (tool)",
+              "expr": "sum(increase(assisted_service_mcp_tool_request_count_total{namespace=\"$namespace\", tool=~\"$mcp_tool\"}[$__rate_interval])) by (tool)",
               "legendFormat": "__auto",
               "range": true,
               "refId": "A"
             }
           ],
-          "title": "Assisted-Service MCP Tool usage count",
+          "title": "MCP Tool Call Count",
           "type": "timeseries"
         },
         {
@@ -455,7 +445,7 @@ data:
                 "axisBorderShow": false,
                 "axisCenteredZero": false,
                 "axisColorMode": "text",
-                "axisLabel": "",
+                "axisLabel": "Response Time",
                 "axisPlacement": "auto",
                 "barAlignment": 0,
                 "barWidthFactor": 0.6,
@@ -485,6 +475,7 @@ data:
                 }
               },
               "mappings": [],
+              "min": 0,
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
@@ -496,22 +487,23 @@ data:
                     "value": 80
                   }
                 ]
-              }
+              },
+              "unit": "s"
             },
             "overrides": []
           },
           "gridPos": {
-            "h": 8,
+            "h": 11,
             "w": 8,
-            "x": 8,
-            "y": 10
+            "x": 7,
+            "y": 18
           },
           "id": 2,
           "options": {
             "legend": {
               "calcs": [],
               "displayMode": "list",
-              "placement": "bottom",
+              "placement": "right",
               "showLegend": true
             },
             "tooltip": {
@@ -528,13 +520,13 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum by (tool) (rate(assisted_service_mcp_tool_request_duration_sum{namespace=\"$namespace\"}[1h])) /\nsum by (tool) (rate(assisted_service_mcp_tool_request_duration_count{namespace=\"$namespace\"}[1h]))",
+              "expr": "sum by (tool) (increase(assisted_service_mcp_tool_request_duration_sum{namespace=\"$namespace\", tool=~\"$mcp_tool\"}[$__rate_interval])) /\nsum by (tool) (increase(assisted_service_mcp_tool_request_duration_count{namespace=\"$namespace\", tool=~\"$mcp_tool\"}[$__rate_interval]))",
               "legendFormat": "__auto",
               "range": true,
               "refId": "A"
             }
           ],
-          "title": "Assisted-Service MCP Tool usage latency (sum/count)",
+          "title": "MCP Mean Response Time",
           "type": "timeseries"
         },
         {
@@ -542,78 +534,64 @@ data:
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "description": "Shows counts in each of the buckets over time. Works best with a specific tool selected.",
           "fieldConfig": {
             "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
               "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
                 "hideFrom": {
                   "legend": false,
                   "tooltip": false,
                   "viz": false
                 },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
                 "scaleDistribution": {
                   "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
                 }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
               }
             },
             "overrides": []
           },
           "gridPos": {
-            "h": 8,
-            "w": 8,
-            "x": 16,
-            "y": 10
+            "h": 12,
+            "w": 7,
+            "x": 0,
+            "y": 29
           },
-          "id": 3,
+          "id": 10,
+          "interval": "1m",
           "options": {
+            "calculate": false,
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "reverse": false,
+              "scale": "exponential",
+              "scheme": "Oranges",
+              "steps": 64
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-9
+            },
             "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
+              "show": false
+            },
+            "rowsFrame": {
+              "layout": "auto"
             },
             "tooltip": {
-              "hideZeros": false,
               "mode": "single",
-              "sort": "none"
+              "showColorScale": false,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisLabel": "Response Time",
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "s"
             }
           },
           "pluginVersion": "11.6.3",
@@ -624,14 +602,15 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "histogram_quantile(0.95, sum(rate(assisted_service_mcp_tool_request_duration_bucket{namespace=\"$namespace\"}[1h])) by (le, tool))",
-              "legendFormat": "__auto",
+              "expr": "sum(increase(assisted_service_mcp_tool_request_duration_bucket{namespace=\"$namespace\", tool=~\"$mcp_tool\"}[$__interval])) by (le)",
+              "format": "heatmap",
+              "legendFormat": "{{le}}",
               "range": true,
               "refId": "A"
             }
           ],
-          "title": "Assisted-Service MCP Tool usage latency (bucket)",
-          "type": "timeseries"
+          "title": "MCP Tool Response Time Heatmap",
+          "type": "heatmap"
         }
       ],
       "preload": false,
@@ -674,6 +653,55 @@ data:
             "refresh": 1,
             "regex": "/assisted-chat.*/",
             "type": "query"
+          },
+          {
+            "allValue": ".*",
+            "current": {
+              "text": "All",
+              "value": "$__all"
+            },
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${datasource}"
+            },
+            "definition": "label_values(ls_response_duration_seconds_bucket,path)",
+            "includeAll": true,
+            "label": "Lightspeed Path",
+            "name": "lightspeed_path",
+            "options": [],
+            "query": {
+              "qryType": 1,
+              "query": "label_values(ls_response_duration_seconds_bucket,path)",
+              "refId": "PrometheusVariableQueryEditor-VariableQuery"
+            },
+            "refresh": 2,
+            "regex": "",
+            "sort": 1,
+            "type": "query"
+          },
+          {
+            "allValue": ".*",
+            "current": {
+              "text": "All",
+              "value": "$__all"
+            },
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${datasource}"
+            },
+            "definition": "label_values(assisted_service_mcp_tool_request_duration_bucket,tool)",
+            "includeAll": true,
+            "label": "MCP Tool",
+            "name": "mcp_tool",
+            "options": [],
+            "query": {
+              "qryType": 1,
+              "query": "label_values(assisted_service_mcp_tool_request_duration_bucket,tool)",
+              "refId": "PrometheusVariableQueryEditor-VariableQuery"
+            },
+            "refresh": 2,
+            "regex": "",
+            "type": "query"
           }
         ]
       },
@@ -685,5 +713,5 @@ data:
       "timezone": "UTC",
       "title": "Assisted-Chat Overview",
       "uid": "feskyd7hytaf4e",
-      "version": 6
+      "version": 1
     }
