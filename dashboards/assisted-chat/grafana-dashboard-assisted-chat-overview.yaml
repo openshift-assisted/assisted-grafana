@@ -107,8 +107,8 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 8,
-            "w": 5,
+            "h": 7,
+            "w": 11,
             "x": 0,
             "y": 1
           },
@@ -165,9 +165,9 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 16,
-            "w": 6,
-            "x": 5,
+            "h": 14,
+            "w": 11,
+            "x": 11,
             "y": 1
           },
           "id": 9,
@@ -288,10 +288,10 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 8,
-            "w": 5,
+            "h": 7,
+            "w": 11,
             "x": 0,
-            "y": 9
+            "y": 8
           },
           "id": 6,
           "options": {
@@ -330,7 +330,7 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 17
+            "y": 15
           },
           "id": 4,
           "panels": [],
@@ -395,10 +395,10 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 11,
-            "w": 7,
+            "h": 10,
+            "w": 11,
             "x": 0,
-            "y": 18
+            "y": 16
           },
           "id": 1,
           "options": {
@@ -493,10 +493,10 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 11,
-            "w": 8,
-            "x": 7,
-            "y": 18
+            "h": 10,
+            "w": 11,
+            "x": 11,
+            "y": 16
           },
           "id": 2,
           "options": {
@@ -552,9 +552,9 @@ data:
           },
           "gridPos": {
             "h": 12,
-            "w": 7,
+            "w": 11,
             "x": 0,
-            "y": 29
+            "y": 26
           },
           "id": 10,
           "interval": "1m",
@@ -713,5 +713,5 @@ data:
       "timezone": "UTC",
       "title": "Assisted-Chat Overview",
       "uid": "feskyd7hytaf4e",
-      "version": 1
+      "version": 2
     }
